@@ -1,16 +1,17 @@
-#installing Ring Central Desktop App
-New-Item -ItemType Directory -Path 'C:\Downloads' -Force
-$folder = "c:\Downloads"
-$url= "https://cdn.watchguard.com/SoftwareCenter/Files/MUVPN_SSL/12_7/WG-MVPN-SSL_12_7.exe"
-$req = [System.Net.HttpWebRequest]::Create($url)
-$req.Method = "HEAD"
-$response = $req.GetResponse()
-$fUri = $response.ResponseUri
-$filename = [System.IO.Path]::GetFileName($fUri.LocalPath); 
-$response.Close()
-$target = join-path $folder $filename 
-Invoke-WebRequest -Uri $url -OutFile $target 
+# Define the URL to the installer
+$InstallerUrl = "https://cdn.watchguard.com/SoftwareCenter/Files/MUVPN_SSL/12_7/WG-MVPN-SSL_12_7.exe"
 
+# Define the path where the installer will be downloaded
+$DownloadPath = "$env:TEMP\installer.exe"
 
+# Download the installer
+Invoke-WebRequest -Uri $InstallerUrl -OutFile $DownloadPath
 
-(Start-Process -FilePath $target -ArgumentList "/install /quiet /norestart" -Wait -PassThru).ExitCode
+# Check if the installer was downloaded successfully
+if (Test-Path $DownloadPath) {
+    # Start the installer
+    Start-Process -FilePath $DownloadPath -ArgumentList "/S" -Wait
+    Write-Host "Installation completed successfully."
+} else {
+    Write-Host "Failed to download the installer from $InstallerUrl"
+}
