@@ -11,7 +11,7 @@ try {
         <QueryList>
             <Query Id="0" Path="System">
                 <Select Path="System">
-                    *[System[(EventID=1074 or EventID=1076 or EventID=6006 or EventID=6008) and TimeCreated[timediff(@SystemTime) &lt;= 604800000]]]
+                    *[System[(EventID=1074 or EventID=1076 or EventID=6006 or EventID=6008 or EventID=6005 or EventID=41) and TimeCreated[timediff(@SystemTime) &lt;= 604800000]]]
                 </Select>
             </Query>
         </QueryList>
