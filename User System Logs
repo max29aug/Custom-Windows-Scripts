@@ -1,0 +1,13 @@
+# Specify the output file path using the user's home directory
+$outputFilePath = Join-Path $env:USERPROFILE "SystemLogs.txt"
+
+# Get events from the System log with specific Event IDs
+$events = Get-EventLog -LogName System | Where-Object { $_.EventID -in @(6005, 6006, 6008, 6009, 1074, 1076) }
+
+# Save the results to the specified text file
+$events | Format-Table -AutoSize | Out-File -FilePath $outputFilePath -Force
+
+# Display the results in the console
+$events | Format-Table -AutoSize
+
+Write-Host "Results saved to $outputFilePath"
