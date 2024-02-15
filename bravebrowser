@@ -8,4 +8,4 @@ $output = "$env:TEMP\installer.exe"
 Invoke-WebRequest -Uri $url -OutFile $output
 
 # Run the installer silently
-Start-Process -FilePath $output -ArgumentList "/S" -Wait -PassThru
+Start-Process -FilePath $output -ArgumentList "/quiet" -Wait -PassThru
