@@ -19,4 +19,4 @@ function Rename-Computer {
 }
 
 # Call the function with the new name
-Rename-Computer -name "client10"
+Rename-Computer -name "client12"
