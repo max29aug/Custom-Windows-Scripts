@@ -1,0 +1,15 @@
+indows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\FrontlineSystems\User Info]
+"UID"=""
+"Email"=""
+"FullName"=""
+"Company"=""
+"Telephone"=""
+"UserType"=""
+"IndustryType"=""
+
+[HKEY_CURRENT_USER\Software\FrontlineSystems\AnalyticSolverPlatform\17.0]
+"DelayRESTCalls"=dword:00000001
+"PreventRESTCalls"=dword:00000001
+"checkUpdate"=dword:00000000
