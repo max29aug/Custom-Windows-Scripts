@@ -1,25 +1,19 @@
-# Specify the drive letter or path you want to perform disk cleanup on
-$driveLetter = "C:"
-
-# Perform disk cleanup
+# Perform disk cleanup silently
 Start-Process "cleanmgr.exe" -ArgumentList "/sagerun:1" -Wait
 
-Write-Host "Disk cleanup on drive $driveLetter completed."
+Write-Host "Disk cleanup completed."
 
 # Specify the task name and description
-$taskName = "DiskCleanupTask"
-$taskDescription = "Run Disk Cleanup once a month"
+$taskName = "DiskCleanupMonthly"
+$taskDescription = "Run Disk Cleanup on the 26th of every month"
 
-# Specify the path to cleanmgr.exe (Disk Cleanup)
-$cleanMgrPath = "C:\Windows\System32\cleanmgr.exe"
+# Create a new task action to run Disk Cleanup
+$action = New-ScheduledTaskAction -Execute "cleanmgr.exe" -Argument "/sagerun:1"
 
-# Create a new task action to run cleanmgr.exe with arguments
-$action = New-ScheduledTaskAction -Execute $cleanMgrPath -Argument "/sagerun:1"
-
-# Create a trigger to run the task monthly
-$trigger = New-ScheduledTaskTrigger -Monthly -MonthsInterval 1
+# Create a trigger to run the task on the 26th of every month
+$trigger = New-ScheduledTaskTrigger -Weekly -WeeksInterval 4 -DaysOfWeek Sunday -At 03:00
 
 # Register the task with Task Scheduler
-Register-ScheduledTask -TaskName $taskName -Description $taskDescription -Action $action -Trigger $trigger -RunLevel Highest
+Register-ScheduledTask -TaskName $taskName -Description $taskDescription -Action $action -Trigger $trigger -RunLevel Highest -Force
 
-Write-Host "Task '$taskName' added to run Disk Cleanup once a month."
+Write-Host "Task '$taskName' added to run Disk Cleanup on the 26th of every month."
