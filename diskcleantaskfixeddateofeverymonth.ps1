@@ -10,7 +10,7 @@ if ($cleanupResult.ExitCode -eq 0) {
 
 # Specify the task name and description
 $taskName = "DiskCleanupTask"
-$taskDescription = "Run Disk Cleanup"
+$taskDescription = "Run Disk Cleanup monthly on the 29th"
 
 # Define the PowerShell script to run disk cleanup silently
 $scriptBlock = {
@@ -21,7 +21,7 @@ $scriptBlock = {
 $currentDate = Get-Date
 
 # Calculate the next run date as the 29th of the next month
-$nextRunDate = $currentDate.AddMonths(1).Date.AddDays(29 - $currentDate.Day)
+$nextRunDate = $currentDate.AddMonths(1).Date.AddDays(-($currentDate.Day - 29))
 
 # Calculate the time of day to run the task
 $runTime = "00:00"
@@ -29,7 +29,7 @@ $runTime = "00:00"
 # Combine the date and time
 $nextRunDateTime = [datetime]::ParseExact("$($nextRunDate.ToString('yyyy-MM-dd')) $runTime", "yyyy-MM-dd HH:mm", $null)
 
-# Create a new scheduled task trigger to run monthly on the calculated date and time
+# Create a new scheduled task trigger to run once on the calculated date and time
 $trigger = New-ScheduledTaskTrigger -Once -At $nextRunDateTime
 
 # Create a new scheduled task action to run the PowerShell script
