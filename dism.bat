@@ -1,1 +1,1 @@
-DISM /Capture-Image /ImageFile:"C:\Capture\image.wim" /CaptureDir:"C:\" /Name:"image" /Compress:Max /CheckIntegrity
+dism /capture-image /imagefile:C:\Capture\image.wim /capturedir:c:\ /name:Win_11
