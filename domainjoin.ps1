@@ -8,7 +8,7 @@ $credential = New-Object System.Management.Automation.PSCredential ($username, $
 $ouPath = "OU=Computers,DC=deploy,DC=local"
 
 # Set the computer name for the client machine
-$computerName = "Client2"
+$computerName = "vm2"
 
 # Attempt to join the domain
 try {
