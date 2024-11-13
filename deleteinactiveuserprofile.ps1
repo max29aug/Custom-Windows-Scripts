@@ -1,4 +1,4 @@
-$daysToKeep = Days 
+$daysToKeep = 5 
 $currentDate = Get-Date 
 $profiles = Get-WmiObject Win32_UserProfile | Where-Object { $_.Special -eq $false } 
 foreach ($profile in $profiles) { 
