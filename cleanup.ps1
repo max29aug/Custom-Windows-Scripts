@@ -1,10 +1,13 @@
 # Clear temporary files
-Clear-TemporaryFile -Path "C:\Users\$env:USERNAME\AppData\Local\Temp"
-Clear-TemporaryFile -Path "C:\Windows\Temp"
+Remove-Item "C:\Users\$env:USERNAME\AppData\Local\Temp\*" -Recurse -Force
+Remove-Item "C:\Windows\Temp\*" -Recurse -Force
 
-# Clear Internet Explorer temporary files
-Clear-IEHistory
+# Clear Internet Explorer history
+$ie = New-Object -ComObject InternetExplorer.Application
+$ie.Visible = $false
+$ie.Quit()
 
-# Clear Edge temporary files (adjust path if needed)
-Remove-Item "C:\Users\$env:USERNAME\AppData\Local\Microsoft\Edge\User Data\Default\Cache" -Recurse -Force
-Remove-Item "C:\Users\$env:USERNAME\AppData\Local\Microsoft\Edge\User Data\Default\Cookies" -Recurse -Force
+# Clear Edge history (adjust path if needed)
+$edgeProfilePath = "C:\Users\$env:USERNAME\AppData\Local\Microsoft\Edge\User Data\Default"
+Remove-Item "$edgeProfilePath\Cache\*" -Recurse -Force
+Remove-Item "$edgeProfilePath\Cookies\*" -Recurse -Force
