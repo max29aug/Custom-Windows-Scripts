@@ -17,9 +17,8 @@ $scriptBlock = {
     Start-Process "cleanmgr.exe" -ArgumentList "/sagerun:1" -Wait -WindowStyle Hidden
 }
 
-# Create a new scheduled task trigger to run on logoff
-$trigger = New-ScheduledTaskTrigger -AtStartup
-$trigger.EventTriggerId = 4  # Event ID 4 is for Logoff in the Security event log
+# Create a new scheduled task trigger to run on user logoff
+$trigger = New-ScheduledTaskTrigger -Logoff
 
 # Create a new scheduled task action to run the PowerShell script
 $action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -Command &{ $scriptBlock }"
