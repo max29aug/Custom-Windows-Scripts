@@ -1,29 +1,14 @@
-# Perform disk cleanup silently
-$cleanupResult = Start-Process "cleanmgr.exe" -ArgumentList "/sagerun:1" -PassThru -NoNewWindow -Wait
+# Define task name and action
+$taskName = "DiskCleanupAtLogoff"
+$action = New-ScheduledTaskAction -Execute "cleanmgr.exe" -Argument "/sagerun:1"
 
-# Check if disk cleanup completed successfully
-if ($cleanupResult.ExitCode -eq 0) {
-    Write-Host "Disk cleanup completed successfully."
-} else {
-    Write-Host "Disk cleanup encountered an error. Exit code: $($cleanupResult.ExitCode)"
-}
+# Define trigger for logoff
+$trigger = New-ScheduledTaskTrigger -AtLogOff
 
-# Specify the task name and description
-$taskName = "DiskCleanupTask"
-$taskDescription = "Run Disk Cleanup on user logoff"
+# Define task settings
+$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable
 
-# Define the PowerShell script to run disk cleanup silently
-$scriptBlock = {
-    Start-Process "cleanmgr.exe" -ArgumentList "/sagerun:1" -Wait -WindowStyle Hidden
-}
+# Register the scheduled task
+Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Settings $settings
 
-# Create a new scheduled task trigger to run on user logoff
-$trigger = New-ScheduledTaskTrigger -Logoff
-
-# Create a new scheduled task action to run the PowerShell script
-$action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -Command &{ $scriptBlock }"
-
-# Register the task with Task Scheduler
-Register-ScheduledTask -TaskName $taskName -Description $taskDescription -Action $action -Trigger $trigger -User "SYSTEM" -RunLevel Highest -Force
-
-Write-Host "Task '$taskName' added to run Disk Cleanup on logoff."
+Write-Output "Scheduled task for disk cleanup at logoff has been created."
