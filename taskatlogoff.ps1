@@ -2,7 +2,7 @@
 $userSID = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 
 # UNC path to the cleanup script
-$uncPath = "\\your_server_name\share_name\cleanup_script.ps1"
+$uncPath = "\\pdc\SharedApps\clear temporary files.ps1"
 
 # Create a task definition to clear temporary files
 $taskDef = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-File \"$uncPath\""
